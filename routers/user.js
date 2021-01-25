@@ -1,28 +1,12 @@
+const koarouter = require('koa-router');
+const { registerController } = require('../controllers/users/register');
+// router 要用require进来的koarouter实例化
+// 需要new才有用
+const router = new koarouter();
 
-const router = require("koa-router")();
-const Koa = require("koa2");
-const cors = require("koa2-cors");
-const bodyParser = require("koa-bodyparser");
+router.post('/', registerController);
 
-const register = require("../controllers/users/register")
-
-const app = new Koa();
-app.use(bodyParser());
-app.use(
-  cors({
-    origin: function (ctx) {
-      return "*";
-    },
-    exposeHeaders: ["WWW-Authenticate", "Server-Authorization"],
-    maxAge: 10,
-    crdentials: true,
-    allowMethods: ["GET", "POST", "DELETE"],
-    allowHeaders: ["Content-Type", "Authorization", "Accept"],
-  })
-);
-
-router.post("/", register);
-app.use(router.routes()).use(router.allowedMethods());
-app.listen(3004);
-
-module.export = router
+// 把文件里的router重命名为userRouter导出出去
+// 在其他文件中就可以用 const { userRouter } = require('./routers/user)
+// 的方式引入
+module.exports = { userRouter: router };
