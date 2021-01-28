@@ -2,7 +2,9 @@ const user = (sequelize,DataTypes)=>
 sequelize.define('user',{
     uuid:{
         type:DataTypes.STRING(100),
-       
+        unique:true,
+        primaryKey:true,
+        allowNull:false,
     },
     username:{
         type:DataTypes.STRING(100),
